@@ -36,7 +36,9 @@ const Signup = () => {
             console.log(res.data);
             if (res.data.success) {
                 toast.success(res.data.message);
-                navigate("/login");
+                navigate("/login", {
+                    state: { message: res.data.success.message },
+                });
             }
         } catch (error) {
             toast.error(error.response.data.message);

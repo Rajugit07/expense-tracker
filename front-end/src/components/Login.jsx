@@ -56,8 +56,8 @@ const Login = () => {
                     <Input
                         type="email"
                         name="email"
-                        onChange={changeHandler}
-                        value={input.email}
+                        onChange={changeHandler} value={input.email}
+                       
                     />
                 </div>
                 <div>
