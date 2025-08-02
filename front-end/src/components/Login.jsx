@@ -33,7 +33,6 @@ const Login = () => {
             );
             if (res.data.success) {
                 dispatch(setAuthUser(res.data.user));
-                // Using browser's built-in alert for now, you can add a toast library later
                 alert(res.data.message);
                 navigate("/");
             }
