@@ -1,31 +1,8 @@
 import React, { useState } from "react";
-import { Button } from "./ui/button";
-import {
-    DialogTrigger,
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogFooter,
-} from "./ui/dialog";
-
-import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-} from "./ui/select";
-
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Loader2 } from "lucide-react";
 import axios from "axios";
-import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setExpenses } from "../redux/expenseSlice";
+
 const CreateExpense = () => {
     const [formData, setFormData] = useState({
         description: "",
@@ -47,10 +24,10 @@ const CreateExpense = () => {
         }));
     };
 
-    const changeCategoryHandler = (value) => {
+    const changeCategoryHandler = (e) => {
         setFormData((prevData) => ({
             ...prevData,
-            category: value,
+            category: e.target.value,
         }));
     };
 
@@ -71,95 +48,127 @@ const CreateExpense = () => {
             );
             if (res.data.success) {
                 dispatch(setExpenses([...expenses, res.data.expense]));
-                toast.success(res.data.message);
+                alert(res.data.message);
                 setIsOpen(false);
                 setFormData({ description: "", amount: "", category: "" });
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            alert(error.response.data.message);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-                <Button onClick={() => setIsOpen(true)} variant="outline">
-                    Add New Expense
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Add Expense</DialogTitle>
-                    <DialogDescription>
-                        Create Expense to here. Click add when you're done.
-                    </DialogDescription>
-                </DialogHeader>
+        <>
+            <button 
+                onClick={() => setIsOpen(true)} 
+                className="btn btn-primary text-sm sm:text-base px-3 py-2 sm:px-4"
+            >
+                Add New Expense
+            </button>
 
-                <form onSubmit={submitHandler}>
-                    <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="name" className="text-right">
-                                Description
-                            </Label>
-                            <Input
-                                id="description"
-                                placeholder="description"
-                                name="description"
-                                className="col-span-3"
-                                value={formData.description}
-                                onChange={changeEventHandler}
-                            />
+            {isOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-auto">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-semibold">Add Expense</h2>
+                            <button 
+                                onClick={() => setIsOpen(false)}
+                                className="text-gray-500 hover:text-gray-700 text-xl"
+                            >
+                                ✕
+                            </button>
                         </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="username" className="text-right">
-                                Amount
-                            </Label>
-                            <Input
-                                id="amount"
-                                name="amount"
-                                placeholder="xxx in ₹ "
-                                className="col-span-3"
-                                value={formData.amount}
-                                onChange={changeEventHandler}
-                            />
-                        </div>
-                        <Select onValueChange={changeCategoryHandler}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a Category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="rent">Rent</SelectItem>
-                                    <SelectItem value="food">Food</SelectItem>
-                                    <SelectItem value="salary">
-                                        Salary
-                                    </SelectItem>
-                                    <SelectItem value="shopping">
-                                        Shopping
-                                    </SelectItem>
-                                    <SelectItem value="others">
-                                        Others
-                                    </SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        
+                        <p className="text-gray-600 mb-4">
+                            Create Expense here. Click add when you're done.
+                        </p>
+
+                        <form onSubmit={submitHandler}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Description
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="description"
+                                        placeholder="description"
+                                        className="input"
+                                        value={formData.description}
+                                        onChange={changeEventHandler}
+                                        required
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Amount
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="amount"
+                                        placeholder="xxx in ₹"
+                                        className="input"
+                                        value={formData.amount}
+                                        onChange={changeEventHandler}
+                                        required
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Category
+                                    </label>
+                                    <select
+                                        name="category"
+                                        className="input"
+                                        value={formData.category}
+                                        onChange={changeCategoryHandler}
+                                        required
+                                    >
+                                        <option value="">Select a Category</option>
+                                        <option value="rent">Rent</option>
+                                        <option value="food">Food</option>
+                                        <option value="salary">Salary</option>
+                                        <option value="shopping">Shopping</option>
+                                        <option value="others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div className="mt-6 flex flex-col sm:flex-row gap-2">
+                                <button 
+                                    type="button" 
+                                    onClick={() => setIsOpen(false)}
+                                    className="btn btn-secondary flex-1"
+                                >
+                                    Cancel
+                                </button>
+                                {loading ? (
+                                    <button 
+                                        type="button" 
+                                        className="btn btn-primary flex-1"
+                                        disabled
+                                    >
+                                        <span className="inline-block animate-spin mr-2">⟳</span>
+                                        Please wait
+                                    </button>
+                                ) : (
+                                    <button 
+                                        type="submit" 
+                                        className="btn btn-primary flex-1"
+                                    >
+                                        Add
+                                    </button>
+                                )}
+                            </div>
+                        </form>
                     </div>
-                    <DialogFooter>
-                        {loading ? (
-                            <Button className="w-full my-4">
-                                <Loader2 className="mr-2 h-4 animate-spin">
-                                    Please wait
-                                </Loader2>
-                            </Button>
-                        ) : (
-                            <Button type="submit">Add</Button>
-                        )}
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
+                </div>
+            )}
+        </>
     );
 };
 

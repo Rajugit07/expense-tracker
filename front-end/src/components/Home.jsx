@@ -1,14 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
 import CreateExpense from "./CreateExpense";
-import {
-    Select,
-    SelectValue,
-    SelectTrigger,
-    SelectGroup,
-    SelectItem,
-    SelectContent,
-} from "./ui/select";
 import { useDispatch } from "react-redux";
 import { setCategory, setMarkAsDone } from "../redux/expenseSlice";
 import ExpenseTable from "./ExpenseTable";
@@ -17,54 +9,52 @@ import useGetExpenses from "../hooks/useGetExpenses";
 const Home = () => {
     useGetExpenses();
     const dispatch = useDispatch();
-    const changeCategoryHandler = (value) => {
-        dispatch(setCategory(value));
+    
+    const changeCategoryHandler = (e) => {
+        dispatch(setCategory(e.target.value));
     };
-    const changeDoneHandler = (value) => {
-        dispatch(setMarkAsDone(value));
+    
+    const changeDoneHandler = (e) => {
+        dispatch(setMarkAsDone(e.target.value));
     };
 
     return (
-        <div>
+        <div className="min-h-screen bg-gray-50">
             <Navbar />
-            <div className="max-w-6xl mx-auto mt-6">
-                <div className="flex items-center justify-between mb-5 ">
-                    <h1>Expenses</h1>
+            <div className="max-w-6xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5 space-y-4 sm:space-y-0">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Expenses</h1>
                     <CreateExpense />
                 </div>
-                <div className="flex items-center gap-2 my-5 ">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 my-5">
                     <h1 className="font-medium text-lg">Filter By: </h1>
-                    <Select onValueChange={changeCategoryHandler}>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="rent">Rent</SelectItem>
-                                <SelectItem value="food">Food</SelectItem>
-                                <SelectItem value="salary">Salary</SelectItem>
-                                <SelectItem value="shopping">
-                                    Shopping
-                                </SelectItem>
-                                <SelectItem value="all">All</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <select 
+                            onChange={changeCategoryHandler}
+                            className="input w-full sm:w-48"
+                        >
+                            <option value="">Category</option>
+                            <option value="rent">Rent</option>
+                            <option value="food">Food</option>
+                            <option value="salary">Salary</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="all">All</option>
+                        </select>
 
-                    <Select onValueChange={changeDoneHandler}>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Mark As " />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="done">Done</SelectItem>
-                                <SelectItem value="undone">Undone</SelectItem>
-                                <SelectItem value="both">Both</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                        <select 
+                            onChange={changeDoneHandler}
+                            className="input w-full sm:w-48"
+                        >
+                            <option value="">Mark As</option>
+                            <option value="done">Done</option>
+                            <option value="undone">Undone</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
                 </div>
-                <ExpenseTable />
+                <div className="overflow-x-auto">
+                    <ExpenseTable />
+                </div>
             </div>
         </div>
     );

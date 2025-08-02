@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExpenses } from "../redux/expenseSlice";
-import { toast } from "sonner";
 
 const useGetExpenses = () => {
     const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const useGetExpenses = () => {
                 }
             } catch (error) {
                 console.log(error);
-                toast.error(error.response.data.message);
+                console.error(error.response?.data?.message || 'An error occurred');
             }
         };
         fetchExpenses();

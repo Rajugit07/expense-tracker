@@ -3,7 +3,6 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Toaster } from "sonner";
 
 const appRouter = createBrowserRouter([
     {
@@ -24,7 +23,6 @@ function App() {
     return (
         <div>
             <RouterProvider router={appRouter} />
-            <Toaster />
         </div>
     );
 }

@@ -1,21 +1,7 @@
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import { useSelector } from "react-redux";
-import { Checkbox } from "./ui/checkbox";
-import { Button } from "./ui/button";
-import { Trash } from "lucide-react";
 import UpdateExpense from "./UpdateExpense";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "sonner";
 
 const ExpenseTable = () => {
     const { expenses } = useSelector((store) => store.expense);
@@ -47,7 +33,7 @@ const ExpenseTable = () => {
                 }
             );
             if (res.data.success) {
-                toast.success(res.data.message);
+                alert(res.data.message);
                 setCheckedItems((prevData) => ({
                     ...prevData,
                     [expenseId]: newStatus,
@@ -72,7 +58,7 @@ const ExpenseTable = () => {
                 `http://localhost:8000/api/v1/expense/remove/${expenseId}`
             );
             if (res.data.message) {
-                toast.success(res.data.message);
+                alert(res.data.message);
                 //update the local state
                 const filterExpenses = localExpense.filter(
                     (expense) => expense._id !== expenseId
@@ -85,96 +71,94 @@ const ExpenseTable = () => {
     };
 
     return (
-        <Table>
-            <TableCaption>A list of your recent expenses..</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[150px]">Mark As Done</TableHead>
-                    <TableHead
-                        className={`${expenses.done ? "line-through" : ""}`}
-                    >
-                        Description
-                    </TableHead>
-                    <TableHead
-                        className={`${expenses.done ? "line-through" : ""}`}
-                    >
-                        Amount
-                    </TableHead>
-                    <TableHead
-                        className={`${expenses.done ? "line-through" : ""}`}
-                    >
-                        Category
-                    </TableHead>
-                    <TableHead
-                        className={`${expenses.done ? "line-through" : ""}`}
-                    >
-                        Date
-                    </TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {localExpense.length === 0 ? (
-                    <TableRow>
-                        <TableCell colSpan={6} className="text-center py-4">
-                            <span>Add your first Expense</span>
-                        </TableCell>
-                    </TableRow>
-                ) : (
-                    localExpense?.map((expense) => (
-                        <TableRow key={expense._id}>
-                            <TableCell className="font-medium">
-                                <Checkbox
-                                    checked={expense.done}
-                                    onCheckedChange={() =>
-                                        handleCheckBoxChange(expense._id)
-                                    }
-                                />
-                            </TableCell>
-                            <TableCell>{expense.description}</TableCell>
-                            <TableCell>{expense.amount}</TableCell>
-                            <TableCell>{expense.category}</TableCell>
-                            <TableCell>
-                                {expense.createdAt?.split("T")[0]}
-                            </TableCell>
-                            <TableCell className="text-right">
-                                <div className="flex items-center justify-end gap-2">
-                                    <Button
-                                        onClick={() =>
-                                            removeExpenseHandler(expense._id)
-                                        }
-                                        className="rounded-full border text-red-600  border-red-600 hover:border-transparent hover:text-black    "
-                                        variant="outline"
-                                    >
-                                        <Trash
-                                            size="icon"
-                                            className="h-4 w-4"
-                                        />
-                                    </Button>
-                                    {/* <Button
-                                    className="rounded-full border text-red-600  border-red-600 hover:border-transparent hover:text-black    "
-                                    variant="outline"
-                                >
-                                    <Edit2 size="icon" className="h-4 w-4" />
-                                </Button> */}
-                                    <UpdateExpense expense={expense} />
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ))
-                )}
-            </TableBody>
-            <TableFooter>
-                <TableRow>
-                    <TableCell colSpan={5} className=" font-bold text-xl">
-                        Total
-                    </TableCell>
-                    <TableCell className="text-right">
-                        {totalAmount} <span>&#8377;</span>{" "}
-                    </TableCell>
-                </TableRow>
-            </TableFooter>
-        </Table>
+        <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-300 text-sm sm:text-base">
+                <caption className="text-sm text-gray-600 mb-2">
+                    A list of your recent expenses..
+                </caption>
+                <thead>
+                    <tr className="bg-gray-50">
+                        <th className="border border-gray-300 px-2 py-2 text-left font-medium text-xs sm:text-sm">
+                            Done
+                        </th>
+                        <th className="border border-gray-300 px-2 py-2 text-left font-medium text-xs sm:text-sm">
+                            Description
+                        </th>
+                        <th className="border border-gray-300 px-2 py-2 text-left font-medium text-xs sm:text-sm">
+                            Amount
+                        </th>
+                        <th className="border border-gray-300 px-2 py-2 text-left font-medium text-xs sm:text-sm hidden sm:table-cell">
+                            Category
+                        </th>
+                        <th className="border border-gray-300 px-2 py-2 text-left font-medium text-xs sm:text-sm hidden md:table-cell">
+                            Date
+                        </th>
+                        <th className="border border-gray-300 px-2 py-2 text-right font-medium text-xs sm:text-sm">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {localExpense.length === 0 ? (
+                        <tr>
+                            <td colSpan={6} className="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                                Add your first Expense
+                            </td>
+                        </tr>
+                    ) : (
+                        localExpense?.map((expense) => (
+                            <tr key={expense._id} className="hover:bg-gray-50">
+                                <td className="border border-gray-300 px-2 py-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={expense.done}
+                                        onChange={() => handleCheckBoxChange(expense._id)}
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    />
+                                </td>
+                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""}`}>
+                                    <div className="truncate max-w-[120px] sm:max-w-none">
+                                        {expense.description}
+                                    </div>
+                                </td>
+                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""}`}>
+                                    ₹{expense.amount}
+                                </td>
+                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""} hidden sm:table-cell`}>
+                                    {expense.category}
+                                </td>
+                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""} hidden md:table-cell`}>
+                                    {expense.createdAt?.split("T")[0]}
+                                </td>
+                                <td className="border border-gray-300 px-2 py-2">
+                                    <div className="flex items-center justify-end gap-1 sm:gap-2">
+                                        <button
+                                            onClick={() => removeExpenseHandler(expense._id)}
+                                            className="p-1 sm:p-2 rounded-full border text-red-600 border-red-600 hover:border-transparent hover:text-white hover:bg-red-600 transition-colors"
+                                            title="Delete"
+                                        >
+                                            🗑️
+                                        </button>
+                                        <UpdateExpense expense={expense} />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+                <tfoot>
+                    <tr className="bg-gray-50 font-bold">
+                        <td colSpan={4} className="border border-gray-300 px-2 py-2 text-lg sm:text-xl">
+                            Total
+                        </td>
+                        <td className="border border-gray-300 px-2 py-2 text-right text-lg sm:text-xl">
+                            ₹{totalAmount}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     );
 };
+
 export default ExpenseTable;
