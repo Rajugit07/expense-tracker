@@ -25,6 +25,10 @@ app.use(cors(corsOptions));
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/expense", expenseRoute);
 
+app.get("/", (req, res) => {
+    res.send("Server is running");
+});
+
 app.listen(PORT, () => {
     connectDB();
     console.log(`Server is running at port ${PORT}`);
