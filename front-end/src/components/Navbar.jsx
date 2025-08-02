@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../assets/logo.png";
+import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const Navbar = () => {
     return (
         <div className="border-b border-gray-300 bg-white sticky top-0 z-50">
             <div className="flex items-center justify-between max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8">
-                <Logo />
+               <img src={logo} alt="logo" />
                 {user ? (
                     <div className="relative">
                         <button

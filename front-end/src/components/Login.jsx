@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "../assets/logo.png";
+import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -49,7 +49,7 @@ const Login = () => {
             <div className="max-w-md w-full space-y-8">
                 <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
                     <div className="w-full flex justify-center mb-6">
-                        <Logo />
+                       <img src={logo} alt="logo" />
                     </div>
                     <form onSubmit={submitHandler} className="space-y-6">
                         <div>
