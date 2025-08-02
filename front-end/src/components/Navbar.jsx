@@ -13,7 +13,7 @@ const Navbar = () => {
         try {
             //network call
             const res = await axios.get(
-                "http://localhost:8000/api/v1/user/logout"
+                "https://expense-tracker-70bh.onrender.com/api/v1/user/logout"
             );
             if (res.data.success) {
                 navigate("/login");
@@ -41,7 +41,7 @@ const Navbar = () => {
                                 </span>
                             </div>
                         </button>
-                        
+
                         {showDropdown && (
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
                                 <button

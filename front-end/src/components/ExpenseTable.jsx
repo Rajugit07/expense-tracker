@@ -51,11 +51,19 @@ const ExpenseTable = () => {
             console.log(error);
         }
     };
+    const API_BASE_URL =
+        "https://expense-tracker-70bh.onrender.com/api/v1/expense";
 
     const removeExpenseHandler = async (expenseId) => {
         try {
             const res = await axios.delete(
-                `http://localhost:8000/api/v1/expense/remove/${expenseId}`
+                `${API_BASE_URL}/remove/${expenseId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
             );
             if (res.data.message) {
                 alert(res.data.message);
@@ -101,7 +109,10 @@ const ExpenseTable = () => {
                 <tbody>
                     {localExpense.length === 0 ? (
                         <tr>
-                            <td colSpan={6} className="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                            <td
+                                colSpan={6}
+                                className="border border-gray-300 px-4 py-8 text-center text-gray-500"
+                            >
                                 Add your first Expense
                             </td>
                         </tr>
@@ -112,28 +123,58 @@ const ExpenseTable = () => {
                                     <input
                                         type="checkbox"
                                         checked={expense.done}
-                                        onChange={() => handleCheckBoxChange(expense._id)}
+                                        onChange={() =>
+                                            handleCheckBoxChange(expense._id)
+                                        }
                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                                     />
                                 </td>
-                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""}`}>
+                                <td
+                                    className={`border border-gray-300 px-2 py-2 ${
+                                        expense.done
+                                            ? "line-through text-gray-500"
+                                            : ""
+                                    }`}
+                                >
                                     <div className="truncate max-w-[120px] sm:max-w-none">
                                         {expense.description}
                                     </div>
                                 </td>
-                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""}`}>
+                                <td
+                                    className={`border border-gray-300 px-2 py-2 ${
+                                        expense.done
+                                            ? "line-through text-gray-500"
+                                            : ""
+                                    }`}
+                                >
                                     ₹{expense.amount}
                                 </td>
-                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""} hidden sm:table-cell`}>
+                                <td
+                                    className={`border border-gray-300 px-2 py-2 ${
+                                        expense.done
+                                            ? "line-through text-gray-500"
+                                            : ""
+                                    } hidden sm:table-cell`}
+                                >
                                     {expense.category}
                                 </td>
-                                <td className={`border border-gray-300 px-2 py-2 ${expense.done ? "line-through text-gray-500" : ""} hidden md:table-cell`}>
+                                <td
+                                    className={`border border-gray-300 px-2 py-2 ${
+                                        expense.done
+                                            ? "line-through text-gray-500"
+                                            : ""
+                                    } hidden md:table-cell`}
+                                >
                                     {expense.createdAt?.split("T")[0]}
                                 </td>
                                 <td className="border border-gray-300 px-2 py-2">
                                     <div className="flex items-center justify-end gap-1 sm:gap-2">
                                         <button
-                                            onClick={() => removeExpenseHandler(expense._id)}
+                                            onClick={() =>
+                                                removeExpenseHandler(
+                                                    expense._id
+                                                )
+                                            }
                                             className="p-1 sm:p-2 rounded-full border text-red-600 border-red-600 hover:border-transparent hover:text-white hover:bg-red-600 transition-colors"
                                             title="Delete"
                                         >
@@ -148,7 +189,10 @@ const ExpenseTable = () => {
                 </tbody>
                 <tfoot>
                     <tr className="bg-gray-50 font-bold">
-                        <td colSpan={4} className="border border-gray-300 px-2 py-2 text-lg sm:text-xl">
+                        <td
+                            colSpan={4}
+                            className="border border-gray-300 px-2 py-2 text-lg sm:text-xl"
+                        >
                             Total
                         </td>
                         <td className="border border-gray-300 px-2 py-2 text-right text-lg sm:text-xl">

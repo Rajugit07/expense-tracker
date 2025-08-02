@@ -18,11 +18,13 @@ const Login = () => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
+    const API_BASE_URL = "https://expense-tracker-70bh.onrender.com/api/v1/user";
+
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                "http://localhost:8000/api/v1/user/login",
+                `${API_BASE_URL}/login`,
                 input,
                 {
                     headers: {
@@ -33,7 +35,7 @@ const Login = () => {
             );
             if (res.data.success) {
                 dispatch(setAuthUser(res.data.user));
-                // Using browser's built-in alert for now, you can add a toast library later
+                // Using browser's built-in alert for now
                 alert(res.data.message);
                 navigate("/");
             }
@@ -76,7 +78,7 @@ const Login = () => {
                                 required
                             />
                         </div>
-                        <button 
+                        <button
                             type="submit"
                             className="btn btn-primary w-full"
                         >

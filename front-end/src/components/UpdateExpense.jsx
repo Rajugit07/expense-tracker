@@ -39,13 +39,15 @@ const UpdateExpense = ({ expense }) => {
         }));
     };
 
+     const API_BASE_URL = "https://expense-tracker-70bh.onrender.com/api/v1/expense";
+
     const submitHandler = async (e) => {
         e.preventDefault();
 
         try {
             setLoading(true);
             const res = await axios.put(
-                `http://localhost:8000/api/v1/expense/update/${expense._id}`,
+                `${API_BASE_URL}/update/${expense._id}`,
                 formData,
                 {
                     headers: {
@@ -87,14 +89,14 @@ const UpdateExpense = ({ expense }) => {
                     <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-auto">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold">Update Expense</h2>
-                            <button 
+                            <button
                                 onClick={() => setIsOpen(false)}
                                 className="text-gray-500 hover:text-gray-700 text-xl"
                             >
                                 ✕
                             </button>
                         </div>
-                        
+
                         <p className="text-gray-600 mb-4">
                             Update Expense here. Click Update when you're done.
                         </p>
@@ -115,7 +117,7 @@ const UpdateExpense = ({ expense }) => {
                                         required
                                     />
                                 </div>
-                                
+
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Amount
@@ -130,7 +132,7 @@ const UpdateExpense = ({ expense }) => {
                                         required
                                     />
                                 </div>
-                                
+
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Category
@@ -151,18 +153,18 @@ const UpdateExpense = ({ expense }) => {
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div className="mt-6 flex flex-col sm:flex-row gap-2">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     onClick={() => setIsOpen(false)}
                                     className="btn btn-secondary flex-1"
                                 >
                                     Cancel
                                 </button>
                                 {loading ? (
-                                    <button 
-                                        type="button" 
+                                    <button
+                                        type="button"
                                         className="btn btn-primary flex-1"
                                         disabled
                                     >
@@ -170,8 +172,8 @@ const UpdateExpense = ({ expense }) => {
                                         Please wait
                                     </button>
                                 ) : (
-                                    <button 
-                                        type="submit" 
+                                    <button
+                                        type="submit"
                                         className="btn btn-primary flex-1"
                                     >
                                         Update

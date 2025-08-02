@@ -15,12 +15,13 @@ const Signup = () => {
     const changeHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
+     const API_BASE_URL = "https://expense-tracker-70bh.onrender.com/api/v1/user";
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                "http://localhost:8000/api/v1/user/register",
+                `${API_BASE_URL}/register`,
                 input,
                 {
                     headers: {
@@ -86,7 +87,7 @@ const Signup = () => {
                                 required
                             />
                         </div>
-                        <button 
+                        <button
                             type="submit"
                             className="btn btn-primary w-full"
                         >
