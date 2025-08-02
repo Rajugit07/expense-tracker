@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "./shared/Logo";
+import Logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";

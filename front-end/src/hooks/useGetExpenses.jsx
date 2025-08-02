@@ -12,11 +12,15 @@ const useGetExpenses = () => {
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
-                axios.defaults.withCredentials = true;
                 const res = await axios.get(
                     `${API_BASE_URL}/getall?category=${category || ""}&done=${
                         markAsDone || ""
-                    }`
+                    }`,{
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
                 );
                 if (res.data.success) {
                     dispatch(setExpenses(res.data.expense));
