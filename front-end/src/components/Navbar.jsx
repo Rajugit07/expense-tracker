@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
+import Logo from "./shared/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -13,7 +13,7 @@ const Navbar = () => {
         try {
             //network call
             const res = await axios.get(
-                "https://expense-tracker-70bh.onrender.com/api/v1/user/logout"
+                "http://localhost:8000/api/v1/user/logout"
             );
             if (res.data.success) {
                 navigate("/login");
@@ -28,7 +28,7 @@ const Navbar = () => {
     return (
         <div className="border-b border-gray-300 bg-white sticky top-0 z-50">
             <div className="flex items-center justify-between max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8">
-               <img src={logo} alt="logo" />
+                <Logo />
                 {user ? (
                     <div className="relative">
                         <button

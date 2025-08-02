@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
+import Logo from "./shared/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -18,13 +18,11 @@ const Login = () => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
-    const API_BASE_URL = "https://expense-tracker-70bh.onrender.com/api/v1/user";
-
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                `${API_BASE_URL}/login`,
+                "http://localhost:8000/api/v1/user/login",
                 input,
                 {
                     headers: {
@@ -35,7 +33,7 @@ const Login = () => {
             );
             if (res.data.success) {
                 dispatch(setAuthUser(res.data.user));
-                // Using browser's built-in alert for now
+                // Using browser's built-in alert for now, you can add a toast library later
                 alert(res.data.message);
                 navigate("/");
             }
@@ -49,7 +47,7 @@ const Login = () => {
             <div className="max-w-md w-full space-y-8">
                 <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
                     <div className="w-full flex justify-center mb-6">
-                       <img src={logo} alt="logo" />
+                        <Logo />
                     </div>
                     <form onSubmit={submitHandler} className="space-y-6">
                         <div>

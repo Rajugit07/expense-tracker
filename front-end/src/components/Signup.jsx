@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
+import Logo from "./shared/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -15,13 +15,12 @@ const Signup = () => {
     const changeHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
-     const API_BASE_URL = "https://expense-tracker-70bh.onrender.com/api/v1/user";
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                `${API_BASE_URL}/register`,
+                "http://localhost:8000/api/v1/user/register",
                 input,
                 {
                     headers: {
@@ -45,7 +44,7 @@ const Signup = () => {
             <div className="max-w-md w-full space-y-8">
                 <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
                     <div className="w-full flex justify-center mb-6">
-                       <img src={logo} alt="logo" />
+                        <Logo />
                     </div>
                     <form onSubmit={submitHandler} className="space-y-6">
                         <div>
